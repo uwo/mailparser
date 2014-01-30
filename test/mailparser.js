@@ -18,9 +18,13 @@ exports["General tests"] = {
         for(var i=0, len = mail.length; i<len; i++){
             mailparser.write(new Buffer([mail[i]]));
         }
+        var ws = fs.createWriteStream('bobnew.pdf');
 
         mailparser.end();
+        mailparser.pipe(ws);
+        console.log(mailparser);
         mailparser.on("end", function(mail){
+            console.log('we never get here');
             test.equal(mail.text, "ÕÄ\nÖÜ");
             test.done();
         });
